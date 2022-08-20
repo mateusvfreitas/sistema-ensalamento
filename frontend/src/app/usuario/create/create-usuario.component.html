@@ -1,0 +1,39 @@
+<mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput placeholder="João da Silva" [formControl]="nome" required />
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+        matInput
+        placeholder="nome@exemplo.com"
+        [formControl]="email"
+        required
+    />
+</mat-form-field>
+
+<mat-radio-group [formControl]="permissao" required>
+    <label id="permissoes">Permissões</label>
+    <mat-radio-button value="simples">Simples</mat-radio-button>
+    <mat-radio-button value="completo">Completo</mat-radio-button>
+</mat-radio-group>
+
+<div style="display: flex; margin-top: 20px" class="botoes">
+    <button
+        style="flex: 1"
+        color="warn"
+        mat-raised-button
+        (click)="closeDialog()"
+    >
+        Fechar
+    </button>
+    <button
+        style="flex: 1; margin-left: 10px"
+        mat-raised-button
+        color="accent"
+        (click)="saveOrUpdateDecider()"
+    >
+        Salvar
+    </button>
+</div>

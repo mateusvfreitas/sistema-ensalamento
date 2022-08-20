@@ -1,0 +1,30 @@
+@import "src/styles";
+
+table {
+    width: 100%;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-row:nth-child(even) {
+    background-color: $roxo-primary;
+}
+
+.botao {
+    margin-top: 20px;
+    // display: grid;
+    // align-items: flex-end;
+    text-align: right;
+}
+
+.acao-tabela {
+    flex: 1;
+    margin: auto;
+}
+
+#menu-linha {
+    text-align: right;
+}

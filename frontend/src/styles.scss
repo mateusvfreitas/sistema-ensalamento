@@ -1,0 +1,21 @@
+$amarelo-utf: #fecc00;
+$roxo-primary: #7b1fa2;
+$cinza-primary: #303030;
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #303030;
+}
+
+.container-conteudo {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0px;
+    position: relative;
+    // text-align: center;
+}
