@@ -1,3 +1,4 @@
+<h1 mat-dialog-title>Usuário</h1>
 <mat-form-field appearance="fill">
     <mat-label>Nome</mat-label>
     <input matInput placeholder="João da Silva" [formControl]="nome" required />
@@ -20,12 +21,7 @@
 </mat-radio-group>
 
 <div style="display: flex; margin-top: 20px" class="botoes">
-    <button
-        style="flex: 1"
-        color="warn"
-        mat-raised-button
-        (click)="closeDialog()"
-    >
+    <button style="flex: 1" color="warn" mat-raised-button mat-dialog-close>
         Fechar
     </button>
     <button

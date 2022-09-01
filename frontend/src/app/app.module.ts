@@ -13,18 +13,32 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import {
+    MatPaginatorIntl,
+    MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Components
 import { AppComponent } from './app.component';
+import { HorarioModalComponent } from './horario/horario-modal/horario-modal.component';
+import { HorarioComponent } from './horario/horario.component';
+import { CustomPaginatorConfiguration } from './shared/CustomPaginatorConfiguration';
 import { CreateUsuarioComponent } from './usuario/create/create-usuario.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 
 @NgModule({
-    declarations: [AppComponent, UsuarioComponent, CreateUsuarioComponent],
+    declarations: [
+        AppComponent,
+        UsuarioComponent,
+        CreateUsuarioComponent,
+        HorarioComponent,
+        HorarioModalComponent,
+    ],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -45,6 +59,8 @@ import { UsuarioComponent } from './usuario/usuario.component';
         MatSelectModule,
         MatCheckboxModule,
         MatRadioModule,
+        MatPaginatorModule,
+        MatSortModule,
     ],
     exports: [
         BrowserModule,
@@ -54,7 +70,9 @@ import { UsuarioComponent } from './usuario/usuario.component';
         MatButtonModule,
         MatFormFieldModule,
     ],
-    providers: [],
+    providers: [
+        { provide: MatPaginatorIntl, useClass: CustomPaginatorConfiguration },
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

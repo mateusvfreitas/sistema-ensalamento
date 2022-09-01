@@ -9,22 +9,11 @@ table {
     width: 100%;
 }
 
-.mat-row:nth-child(even) {
+.mat-row:nth-child(odd) {
     background-color: $roxo-primary;
 }
 
-.botao {
+.botao-add {
     margin-top: 20px;
-    // display: grid;
-    // align-items: flex-end;
-    text-align: right;
-}
-
-.acao-tabela {
-    flex: 1;
-    margin: auto;
-}
-
-#menu-linha {
     text-align: right;
 }

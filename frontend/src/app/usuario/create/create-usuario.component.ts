@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -17,6 +17,8 @@ export class CreateUsuarioComponent implements OnInit {
     usuarioDialogContent!: any;
     idUsuario!: any;
 
+    onAdd = new EventEmitter();
+
     constructor(
         private usuarioService: UsuarioService,
         public dialogRef: MatDialogRef<CreateUsuarioComponent>,
@@ -26,21 +28,25 @@ export class CreateUsuarioComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.usuarioDialogContent);
         if (this.usuarioDialogContent !== null) {
             this.nome.setValue(this.usuarioDialogContent.nome);
             this.email.setValue(this.usuarioDialogContent.email);
-            this.permissao.setValue('completo');
+            this.permissao.setValue(
+                this.usuarioDialogContent.isAdmin === false
+                    ? 'simples'
+                    : 'completo'
+            );
         }
-        console.log(this.permissao);
     }
 
-    closeDialog() {
-        this.dialogRef.close();
+    clearForm() {
+        this.nome.setValue('');
+        this.email.setValue('');
+        this.permissao.setValue('simples');
     }
 
     saveOrUpdateDecider() {
-        if (this.usuarioDialogContent.id == null) {
+        if (this.usuarioDialogContent === null) {
             this.salvarUsuario();
         } else {
             this.updateUsuario();
@@ -68,6 +74,8 @@ export class CreateUsuarioComponent implements OnInit {
                 .salvarNovoUsuario(this.wrapUsuario())
                 .subscribe((response) => {
                     console.log('POST OK');
+                    this.onAdd.emit(response);
+                    this.clearForm();
                 });
         }
     }
@@ -77,6 +85,7 @@ export class CreateUsuarioComponent implements OnInit {
             .updateUsuario(this.usuarioDialogContent.id, this.wrapUsuario())
             .subscribe((response) => {
                 console.log('UPDATE OK');
+                this.onAdd.emit(response);
             });
     }
 }

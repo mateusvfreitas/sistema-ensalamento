@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Horário de Aula</h1>
+<mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput [formControl]="nome" placeholder="M1" required />
+</mat-form-field>
+
+<div style="display: flex; gap: 10px">
+    <mat-form-field style="flex: 1" appearance="fill">
+        <mat-label>Horário de Início</mat-label>
+        <input
+            id="timepicker"
+            type="time"
+            matInput
+            [formControl]="horarioInicio"
+            required
+        />
+    </mat-form-field>
+
+    <mat-form-field style="flex: 1" appearance="fill">
+        <mat-label>Horário de Término</mat-label>
+        <input type="time" matInput [formControl]="horarioFim" required />
+    </mat-form-field>
+</div>
+
+<div style="display: flex; margin-top: 20px" class="botoes">
+    <button style="flex: 1" color="warn" mat-raised-button mat-dialog-close>
+        Fechar
+    </button>
+    <button
+        style="flex: 1; margin-left: 10px"
+        (click)="salvar()"
+        mat-raised-button
+        color="accent"
+    >
+        Salvar
+    </button>
+</div>

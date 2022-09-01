@@ -4,10 +4,10 @@
         <input
             matInput
             style="color: white"
-            (keyup)="applyFilter($event)"
             placeholder="Ex.: Maria da Silva"
             #input
         />
+        <!-- (keyup)="applyFilter($event)" -->
     </mat-form-field>
 
     <table
@@ -16,10 +16,10 @@
         matSortActive="nome"
         matSortDirection="asc"
         matSortDisableClear="true"
-        (matSortChange)="setSort($event)"
-        [dataSource]="dataSource"
         class="mat-elevation-z8"
     >
+        <!-- (matSortChange)="setSort($event)" -->
+        <!-- [dataSource]="dataSource" -->
         <ng-container matColumnDef="nome">
             <th
                 mat-header-cell
@@ -67,14 +67,11 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button
-                        (click)="consultarUsuarioPorId(element.id)"
-                        mat-menu-item
-                    >
+                    <button mat-menu-item>
                         <mat-icon>edit</mat-icon>
                         <span>Editar</span>
                     </button>
-                    <button (click)="deletarUsuario(element.id)" mat-menu-item>
+                    <button mat-menu-item>
                         <mat-icon>delete</mat-icon>
                         <span>Deletar</span>
                     </button>
@@ -95,11 +92,8 @@
         </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons>
-    </mat-paginator>
-
     <div class="botao-add">
-        <button (click)="openDialog(null)" mat-fab color="primary">
+        <button (click)="openDialog()" mat-fab color="primary">
             <mat-icon>add</mat-icon>
         </button>
     </div>
