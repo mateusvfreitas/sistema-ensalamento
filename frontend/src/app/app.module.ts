@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ import {
 } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -28,6 +29,7 @@ import { AppComponent } from './app.component';
 import { HorarioModalComponent } from './horario/horario-modal/horario-modal.component';
 import { HorarioComponent } from './horario/horario.component';
 import { CustomPaginatorConfiguration } from './shared/CustomPaginatorConfiguration';
+import { HttpErrorInterceptor } from './shared/http-error.interceptor';
 import { CreateUsuarioComponent } from './usuario/create/create-usuario.component';
 import { UsuarioComponent } from './usuario/usuario.component';
 
@@ -61,6 +63,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
         MatRadioModule,
         MatPaginatorModule,
         MatSortModule,
+        MatSnackBarModule,
     ],
     exports: [
         BrowserModule,
@@ -72,6 +75,11 @@ import { UsuarioComponent } from './usuario/usuario.component';
     ],
     providers: [
         { provide: MatPaginatorIntl, useClass: CustomPaginatorConfiguration },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HttpErrorInterceptor,
+            multi: true,
+        },
     ],
     bootstrap: [AppComponent],
 })

@@ -1,6 +1,8 @@
 $amarelo-utf: #fecc00;
 $roxo-primary: #7b1fa2;
 $cinza-primary: #303030;
+$error: #f44336;
+$success: #69f0ae;
 
 html,
 body {
@@ -18,4 +20,13 @@ body {
     padding: 0px;
     position: relative;
     // text-align: center;
+}
+
+.error-snackbar {
+    background-color: $error;
+    color: #fff;
+}
+
+.success-snackbar {
+    background-color: $success;
 }

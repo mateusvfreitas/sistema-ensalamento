@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { SnackbarService } from 'src/app/utils/snackbar.service';
 import { UsuarioService } from '../usuario.service';
 
 @Component({
@@ -15,12 +16,12 @@ export class CreateUsuarioComponent implements OnInit {
     permissao = new FormControl('simples');
 
     usuarioDialogContent!: any;
-    idUsuario!: any;
 
     onAdd = new EventEmitter();
 
     constructor(
         private usuarioService: UsuarioService,
+        private snackService: SnackbarService,
         public dialogRef: MatDialogRef<CreateUsuarioComponent>,
         @Inject(MAT_DIALOG_DATA) data: any
     ) {
@@ -68,14 +69,19 @@ export class CreateUsuarioComponent implements OnInit {
             this.email.hasError('required') ||
             this.email.hasError('email')
         ) {
-            console.log(Error);
+            this.snackService.openSnackbar(
+                'Pendência de campos obrigatórios',
+                false
+            );
         } else {
             this.usuarioService
                 .salvarNovoUsuario(this.wrapUsuario())
-                .subscribe((response) => {
-                    console.log('POST OK');
-                    this.onAdd.emit(response);
-                    this.clearForm();
+                .subscribe(() => {
+                    this.dialogRef.close();
+                    this.snackService.openSnackbar(
+                        'Usuário criado com sucesso',
+                        true
+                    );
                 });
         }
     }
@@ -83,9 +89,12 @@ export class CreateUsuarioComponent implements OnInit {
     updateUsuario() {
         this.usuarioService
             .updateUsuario(this.usuarioDialogContent.id, this.wrapUsuario())
-            .subscribe((response) => {
-                console.log('UPDATE OK');
-                this.onAdd.emit(response);
+            .subscribe(() => {
+                this.dialogRef.close();
+                this.snackService.openSnackbar(
+                    'Usuário editado com sucesso',
+                    true
+                );
             });
     }
 }

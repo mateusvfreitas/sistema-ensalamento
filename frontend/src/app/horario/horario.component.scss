@@ -1,0 +1,14 @@
+@import "src/styles";
+
+table {
+    margin-top: 71px;
+}
+
+.mat-row:nth-child(odd) {
+    background-color: $roxo-primary;
+}
+
+.botao-add {
+    margin-top: 20px;
+    text-align: right;
+}

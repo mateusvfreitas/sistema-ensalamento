@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SnackbarService } from '../utils/snackbar.service';
 import { CreateUsuarioComponent } from './create/create-usuario.component';
 
 import { Usuario } from './model/usuario';
@@ -22,6 +23,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
 
     constructor(
         public dialog: MatDialog,
+        private snackService: SnackbarService,
         private usuarioService: UsuarioService
     ) {}
 
@@ -52,12 +54,6 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
             data: usuarioToUpdate,
         });
 
-        dialogRef.componentInstance.onAdd.subscribe((data) => {
-            if (data !== null) {
-                this.listarUsuarios();
-            }
-        });
-
         dialogRef.afterClosed().subscribe(() => {
             this.listarUsuarios();
         });
@@ -78,6 +74,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     deletarUsuario(id: any): void {
         this.usuarioService.deletarUsuario(id).subscribe((response) => {
             this.listarUsuarios();
+            this.snackService.openSnackbar('Usuário deletado', true);
         });
     }
 }
