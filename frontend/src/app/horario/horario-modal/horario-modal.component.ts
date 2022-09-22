@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SnackbarService } from 'src/app/utils/snackbar.service';
@@ -16,7 +16,6 @@ export class HorarioModalComponent implements OnInit {
     horarioFim = new FormControl('', [Validators.required]);
 
     horarioDialogContent!: any;
-    onAdd = new EventEmitter();
 
     constructor(
         private horarioService: HorarioService,
@@ -66,7 +65,10 @@ export class HorarioModalComponent implements OnInit {
             this.horarioInicio.hasError('required') ||
             this.horarioFim.hasError('required')
         ) {
-            console.log(Error);
+            this.snackService.openSnackbar(
+                'Pendência de campos obrigatórios',
+                false
+            );
         } else {
             this.horarioService
                 .salvarNovoHorario(this.wrapHorario())

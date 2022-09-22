@@ -50,12 +50,6 @@ export class HorarioComponent implements OnInit, AfterViewInit {
             data: horarioToUpdate,
         });
 
-        dialogRef.componentInstance.onAdd.subscribe((data) => {
-            if (data !== null) {
-                this.listarHorarios();
-            }
-        });
-
         dialogRef.afterClosed().subscribe(() => this.listarHorarios());
     }
 

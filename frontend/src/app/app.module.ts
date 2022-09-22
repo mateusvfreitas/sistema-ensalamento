@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 // Material Design
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,6 +27,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 // Components
 import { AppComponent } from './app.component';
+import { AtributoModalComponent } from './atributo/atributo-modal/atributo-modal.component';
+import { AtributoComponent } from './atributo/atributo.component';
+import { CursoModalComponent } from './curso/curso-modal/curso-modal.component';
+import { CursoComponent } from './curso/curso.component';
 import { HorarioModalComponent } from './horario/horario-modal/horario-modal.component';
 import { HorarioComponent } from './horario/horario.component';
 import { CustomPaginatorConfiguration } from './shared/CustomPaginatorConfiguration';
@@ -40,6 +45,10 @@ import { UsuarioComponent } from './usuario/usuario.component';
         CreateUsuarioComponent,
         HorarioComponent,
         HorarioModalComponent,
+        CursoComponent,
+        CursoModalComponent,
+        AtributoComponent,
+        AtributoModalComponent,
     ],
     imports: [
         BrowserModule,
@@ -64,6 +73,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
         MatPaginatorModule,
         MatSortModule,
         MatSnackBarModule,
+        MatChipsModule,
     ],
     exports: [
         BrowserModule,
