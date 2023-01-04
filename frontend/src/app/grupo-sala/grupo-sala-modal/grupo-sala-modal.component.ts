@@ -1,24 +1,24 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AtributoComponent } from 'src/app/atributo/atributo.component';
-import { AtributoService } from 'src/app/atributo/atributo.service';
 import { SnackbarService } from 'src/app/utils/snackbar.service';
+import { GrupoSalaComponent } from '../grupo-sala.component';
+import { GrupoSalaService } from '../grupo-sala.service';
 
 @Component({
-    selector: 'app-atributo-modal',
-    templateUrl: './atributo-modal.component.html',
-    styleUrls: ['./atributo-modal.component.scss'],
+    selector: 'app-grupo-sala-modal',
+    templateUrl: './grupo-sala-modal.component.html',
+    styleUrls: ['./grupo-sala-modal.component.scss'],
 })
-export class AtributoModalComponent implements OnInit {
+export class GrupoSalaModalComponent implements OnInit {
     nome = new FormControl('', [Validators.required]);
 
     atributoDialogContent!: any;
 
     constructor(
-        private atributoService: AtributoService,
+        private atributoService: GrupoSalaService,
         private snackService: SnackbarService,
-        public dialogRef: MatDialogRef<AtributoComponent>,
+        public dialogRef: MatDialogRef<GrupoSalaComponent>,
         @Inject(MAT_DIALOG_DATA) data: any
     ) {
         this.atributoDialogContent = data;
@@ -36,20 +36,20 @@ export class AtributoModalComponent implements OnInit {
 
     saveOrUpdateDecider(): void {
         if (this.atributoDialogContent === null) {
-            this.salvarAtributo();
+            this.salvarGrupoSala();
         } else {
             this.updateatributo();
         }
     }
 
-    wrapAtributo() {
+    wrapGrupoSala() {
         let atributo = {
             nome: this.nome.value,
         };
         return atributo;
     }
 
-    salvarAtributo(): void {
+    salvarGrupoSala(): void {
         if (this.nome.hasError('required')) {
             this.snackService.openSnackbar(
                 'Pendência de campos obrigatórios',
@@ -57,11 +57,11 @@ export class AtributoModalComponent implements OnInit {
             );
         } else {
             this.atributoService
-                .salvarNovoAtributo(this.wrapAtributo())
+                .salvarNovoGrupo(this.wrapGrupoSala())
                 .subscribe(() => {
                     this.dialogRef.close();
                     this.snackService.openSnackbar(
-                        'Atributo criado com sucesso',
+                        'Agrupamento criado com sucesso',
                         true
                     );
                 });
@@ -70,11 +70,11 @@ export class AtributoModalComponent implements OnInit {
 
     updateatributo() {
         this.atributoService
-            .updateAtributo(this.atributoDialogContent.id, this.wrapAtributo())
+            .updateGrupo(this.atributoDialogContent.id, this.wrapGrupoSala())
             .subscribe(() => {
                 this.dialogRef.close();
                 this.snackService.openSnackbar(
-                    'Atributo editado com sucesso',
+                    'Agrupamento editado com sucesso',
                     true
                 );
             });

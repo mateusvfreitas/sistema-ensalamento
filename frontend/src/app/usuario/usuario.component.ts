@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { FILTRO_NOME } from '../utils/filtros';
 import { SnackbarService } from '../utils/snackbar.service';
 import { CreateUsuarioComponent } from './create/create-usuario.component';
 
@@ -62,6 +63,7 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
     listarUsuarios(): void {
         this.usuarioService.listarUsuarios().subscribe((response) => {
             this.dataSource.data = response as Usuario[];
+            FILTRO_NOME.filtrarPorTexto(this.dataSource);
         });
     }
 

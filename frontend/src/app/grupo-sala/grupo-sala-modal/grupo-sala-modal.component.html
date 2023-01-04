@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Atributo de Sala</h1>
+<mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input
+        matInput
+        [formControl]="nome"
+        placeholder="Microcontroladores"
+        required
+    />
+</mat-form-field>
+
+<div style="display: flex; margin-top: 20px" class="botoes">
+    <button style="flex: 1" color="warn" mat-raised-button mat-dialog-close>
+        Fechar
+    </button>
+    <button
+        style="flex: 1; margin-left: 10px"
+        (click)="saveOrUpdateDecider()"
+        mat-raised-button
+        color="accent"
+    >
+        Salvar
+    </button>
+</div>

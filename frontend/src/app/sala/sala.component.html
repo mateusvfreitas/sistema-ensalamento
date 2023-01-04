@@ -1,0 +1,272 @@
+<div class="container-conteudo">
+    <mat-form-field appearance="standard">
+        <mat-label>Buscar sala por nome</mat-label>
+        <input
+            matInput
+            style="color: white"
+            (keyup)="applyFilter($event)"
+            placeholder="Ex.: E-307"
+            #input
+        />
+    </mat-form-field>
+    <div class="filtros" style="display: flex">
+        <div class="filtro-capacidade" style="width: 13%">
+            <mat-form-field appearance="outline">
+                <mat-label>Capacidade Mínima</mat-label>
+                <input
+                    [formControl]="filtroCapacidade"
+                    type="number"
+                    matInput
+                    style="color: white"
+                />
+            </mat-form-field>
+            <!-- <mat-label>Capacidade Mínima</mat-label>
+            <mat-slider
+                [(ngModel)]="capacidadeMinima"
+                thumbLabel
+                step="5"
+                min="0"
+                max="200"
+            ></mat-slider> -->
+        </div>
+        <div class="filtro-agrupamento" style="width: 20%">
+            <mat-form-field appearance="outline">
+                <mat-label>Agrupamento</mat-label>
+                <mat-select [formControl]="filtroAgrupamento" multiple>
+                    <mat-select-trigger>
+                        <mat-chip-list>
+                            <mat-chip
+                                *ngFor="let grupo of filtroAgrupamento.value"
+                            >
+                                {{ grupo["nome"] }}
+                            </mat-chip>
+                            <!-- <span
+                                style="font-size: 1.5rem"
+                                *ngIf="
+                                    filtroAgrupamento.value != null &&
+                                    filtroAgrupamento.value.length > 1
+                                "
+                                >...</span
+                            > -->
+                        </mat-chip-list>
+                    </mat-select-trigger>
+                    <mat-option
+                        *ngFor="let grupo of listaAgrupamentos"
+                        [value]="grupo"
+                        >{{ grupo.nome }}</mat-option
+                    >
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="filtro-atributos" style="width: 30%">
+            <div class="teste">
+                <mat-form-field appearance="outline">
+                    <mat-label>Atributos</mat-label>
+                    <mat-select [formControl]="filtroAtributos" multiple>
+                        <mat-select-trigger>
+                            <mat-chip-list>
+                                <mat-chip
+                                    *ngFor="
+                                        let atributo of filtroAtributos.value
+                                    "
+                                >
+                                    {{ atributo["nome"] }}
+                                </mat-chip>
+                                <!-- <span
+                                    style="font-size: 1.5rem"
+                                    *ngIf="
+                                        filtroAtributos.value != null &&
+                                        filtroAtributos.value.length > 3
+                                    "
+                                    >...</span
+                                > -->
+                            </mat-chip-list>
+                        </mat-select-trigger>
+                        <mat-option
+                            *ngFor="let atributo of listaAtributos"
+                            [value]="atributo"
+                            >{{ atributo.nome }}</mat-option
+                        >
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="toggle" style="display: flex; width: 30%">
+            <span
+                style="margin-right: 8px; cursor: help"
+                matTooltip="QUALQUER: salas que contenham qualquer um dos atributos filtrados"
+                >Qualquer</span
+            >
+            <mat-slide-toggle [(ngModel)]="matchAll"></mat-slide-toggle>
+            <span
+                style="margin-left: 8px; cursor: help"
+                matTooltip="TODOS: salas que contenham todos os atributos filtrados"
+                >Todos</span
+            >
+            <!-- <div class="toggle" style="display: flex">
+                
+            </div> -->
+        </div>
+        <button
+            style="width: 7%"
+            mat-raised-button
+            color="accent"
+            (click)="filtrar()"
+        >
+            Filtrar
+        </button>
+    </div>
+
+    <table
+        mat-table
+        matSort
+        matSortActive="nome"
+        matSortDirection="asc"
+        matSortDisableClear="true"
+        (matSortChange)="setSort($event)"
+        [dataSource]="dataSource"
+        multiTemplateDataRows
+        class="mat-elevation-z8"
+    >
+        <ng-container matColumnDef="nome">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 20%"
+            >
+                Nome
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="capacidade">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 20%"
+            >
+                Capacidade
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.capacidade }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="grupoSala">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 20%"
+            >
+                Agrupamento
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.grupoSala.nome }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="atributosResumidos">
+            <th mat-header-cell *matHeaderCellDef style="width: 40%">
+                Atributos
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-chip-list>
+                    <mat-chip *ngFor="let item of element.atributos.slice(0, 6)"
+                        >{{ item.nome }}
+                    </mat-chip>
+                    <!-- <div *ngIf="element.atributos.length > 3">
+                        <span style="font-size: 1.5rem"> ... </span>
+                    </div> -->
+                </mat-chip-list>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expand">
+            <th mat-header-cell *matHeaderCellDef>&nbsp;</th>
+            <td mat-cell *matCellDef="let element">
+                <button
+                    mat-icon-button
+                    (click)="
+                        expandedElement =
+                            expandedElement === element ? null : element;
+                        $event.stopPropagation()
+                    "
+                >
+                    <mat-icon *ngIf="expandedElement !== element"
+                        >keyboard_arrow_down</mat-icon
+                    >
+                    <mat-icon *ngIf="expandedElement === element"
+                        >keyboard_arrow_up</mat-icon
+                    >
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td
+                mat-cell
+                *matCellDef="let element"
+                [attr.colspan]="columnsToDisplayWithExpand.length"
+            >
+                <div
+                    class="example-element-detail"
+                    [@detailExpand]="
+                        element == expandedElement ? 'expanded' : 'collapsed'
+                    "
+                >
+                    <div class="container-expand">
+                        <div class="exclusiva-liberar" style="width: 40%">
+                            <h4>Especificidades</h4>
+                            <mat-checkbox
+                                style="margin-right: 50px"
+                                disabled="true"
+                                [(ngModel)]="element.isExclusiva"
+                                >Exclusiva</mat-checkbox
+                            >
+                            <mat-checkbox
+                                [(ngModel)]="element.isLiberar"
+                                disabled="true"
+                                >Liberar</mat-checkbox
+                            >
+                        </div>
+                        <div class="atributos" style="width: 60%">
+                            <h4>Atributos</h4>
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let item of element.atributos"
+                                    >{{ item.nome }}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+        <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplayWithExpand"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+                expandedElement = expandedElement === element ? null : element
+            "
+        ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+        ></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons>
+    </mat-paginator>
+
+    <div class="botao-add">
+        <button (click)="openDialog(null)" mat-fab color="primary">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>

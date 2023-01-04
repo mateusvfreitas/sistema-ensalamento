@@ -3,20 +3,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { GrupoSalaModalComponent } from '../grupo-sala/grupo-sala-modal/grupo-sala-modal.component';
+import { GrupoSalaService } from '../grupo-sala/grupo-sala.service';
+import { GrupoSala } from '../grupo-sala/model/grupo-sala';
 import { FILTRO_NOME } from '../utils/filtros';
 import { SnackbarService } from '../utils/snackbar.service';
-import { AtributoModalComponent } from './atributo-modal/atributo-modal.component';
-import { AtributoService } from './atributo.service';
-import { Atributo } from './model/atributo';
 
 @Component({
-    selector: 'app-atributo',
-    templateUrl: './atributo.component.html',
-    styleUrls: ['./atributo.component.scss'],
+    selector: 'app-grupo-sala',
+    templateUrl: './grupo-sala.component.html',
+    styleUrls: ['./grupo-sala.component.scss'],
 })
-export class AtributoComponent implements OnInit {
+export class GrupoSalaComponent implements OnInit {
     displayedColumns: string[] = ['nome', 'moreActions'];
-    dataSource = new MatTableDataSource<Atributo>();
+    dataSource = new MatTableDataSource<GrupoSala>();
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -24,11 +24,11 @@ export class AtributoComponent implements OnInit {
     constructor(
         public dialog: MatDialog,
         private snackService: SnackbarService,
-        private atributoService: AtributoService
+        private grupoSalaService: GrupoSalaService
     ) {}
 
     ngOnInit(): void {
-        this.listarAtributos();
+        this.listarGrupoSalas();
     }
 
     ngAfterViewInit() {
@@ -48,34 +48,32 @@ export class AtributoComponent implements OnInit {
         this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    openDialog(atributoSalaToUpdate: any) {
-        const dialogRef = this.dialog.open(AtributoModalComponent, {
+    openDialog(grupoSalaToUpdate: any) {
+        const dialogRef = this.dialog.open(GrupoSalaModalComponent, {
             width: '500px',
-            data: atributoSalaToUpdate,
+            data: grupoSalaToUpdate,
         });
 
-        dialogRef.afterClosed().subscribe(() => this.listarAtributos());
+        dialogRef.afterClosed().subscribe(() => this.listarGrupoSalas());
     }
 
-    listarAtributos(): void {
-        this.atributoService.listarAtributos().subscribe((response) => {
-            this.dataSource.data = response as Atributo[];
+    listarGrupoSalas(): void {
+        this.grupoSalaService.listarGrupos().subscribe((response) => {
+            this.dataSource.data = response as GrupoSala[];
             FILTRO_NOME.filtrarPorTexto(this.dataSource);
         });
     }
 
-    consultarAtributoPorId(id: any) {
-        this.atributoService
-            .consultarAtributoPorId(id)
-            .subscribe((response) => {
-                this.openDialog(response);
-            });
+    consultarGrupoSalaPorId(id: any) {
+        this.grupoSalaService.consultarGrupoPorId(id).subscribe((response) => {
+            this.openDialog(response);
+        });
     }
 
-    deletarAtributo(id: any): void {
-        this.atributoService.deletarAtributo(id).subscribe((response) => {
-            this.listarAtributos();
-            this.snackService.openSnackbar('Atributo deletado', true);
+    deletarGrupoSala(id: any): void {
+        this.grupoSalaService.deletarGrupo(id).subscribe((response) => {
+            this.listarGrupoSalas();
+            this.snackService.openSnackbar('GrupoSala deletado', true);
         });
     }
 }
