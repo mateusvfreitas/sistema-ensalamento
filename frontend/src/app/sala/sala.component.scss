@@ -9,16 +9,23 @@ table {
     width: 100%;
 }
 
-.mat-row:nth-child(3n) {
-    background-color: $roxo-primary;
-}
-.mat-row:nth-child(3n + 4) {
+// .mat-row:nth-child(4n + 1),
+// .mat-row:nth-child(4n + 2) {
+//     background-color: $roxo-primary;
+// }
+
+.mat-row:nth-child(even) {
     background-color: $roxo-primary;
 }
 
 .botao-add {
     margin-top: 20px;
     text-align: right;
+}
+
+.mat-cell,
+.mat-header-cell {
+    padding: 0 10px;
 }
 
 ///////////////////////////
@@ -36,9 +43,13 @@ tr.example-detail-row {
     display: flex;
 }
 
+::ng-deep .mat-tooltip {
+    white-space: pre-line; // Allow line break
+}
+
 .container-expand {
     width: 100%;
-    padding: 20px;
+    padding: 20px 50px;
     display: flex;
     flex-wrap: wrap;
     // border: 1px solid black;
@@ -48,6 +59,7 @@ tr.example-detail-row {
 
 :host ::ng-deep .mat-chip-list-wrapper {
     flex-wrap: nowrap;
+    margin: -4px auto;
 }
 
 h4 {
@@ -92,3 +104,34 @@ input[type="number"] {
 .toggle span {
     color: $cinza-secondary;
 }
+
+.atributos-compactados {
+    max-width: 450px;
+    padding: 10px 0;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.atributos-compactados::-webkit-scrollbar {
+    // display: none;
+    height: 5px;
+    margin-top: 10px;
+}
+
+:host ::ng-deep .mat-standard-chip {
+    min-width: max-content;
+}
+
+// .atributos-compactados::-webkit-scrollbar-track {
+//     background-color: $cinza-secondary;
+// }
+
+// .atributos-compactados::-webkit-scrollbar-thumb {
+//     background-color: $success;
+// }
+
+// .atributos-compactados:hover {
+//     overflow: visible;
+// }

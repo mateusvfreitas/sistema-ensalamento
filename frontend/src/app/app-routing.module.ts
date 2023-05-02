@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AtributoComponent } from './atributo/atributo.component';
+import { BlocoAulaComponent } from './bloco-aula/bloco-aula.component';
 import { CursoComponent } from './curso/curso.component';
 import { GrupoSalaComponent } from './grupo-sala/grupo-sala.component';
 import { HorarioComponent } from './horario/horario.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
     {
         path: 'salas',
         component: SalaComponent,
+    },
+    {
+        path: 'blocos-aula',
+        component: BlocoAulaComponent,
     },
 ];
 

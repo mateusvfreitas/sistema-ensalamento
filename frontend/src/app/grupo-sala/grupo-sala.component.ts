@@ -6,7 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { GrupoSalaModalComponent } from '../grupo-sala/grupo-sala-modal/grupo-sala-modal.component';
 import { GrupoSalaService } from '../grupo-sala/grupo-sala.service';
 import { GrupoSala } from '../grupo-sala/model/grupo-sala';
-import { FILTRO_NOME } from '../utils/filtros';
+import { FILTRO_TEXTO } from '../utils/filtros';
 import { SnackbarService } from '../utils/snackbar.service';
 
 @Component({
@@ -60,7 +60,7 @@ export class GrupoSalaComponent implements OnInit {
     listarGrupoSalas(): void {
         this.grupoSalaService.listarGrupos().subscribe((response) => {
             this.dataSource.data = response as GrupoSala[];
-            FILTRO_NOME.filtrarPorTexto(this.dataSource);
+            FILTRO_TEXTO.filtrarPorNome(this.dataSource);
         });
     }
 

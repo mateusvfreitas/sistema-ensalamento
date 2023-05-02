@@ -3,3 +3,7 @@
     flex-direction: column;
     margin-bottom: 10px;
 }
+
+:host ::ng-deep .mat-chip-list-wrapper {
+    flex-wrap: nowrap;
+}

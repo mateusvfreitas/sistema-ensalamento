@@ -17,3 +17,27 @@ table {
     margin-top: 20px;
     text-align: right;
 }
+
+.resp-compactados {
+    max-width: 400px;
+    padding: 10px 0;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.resp-compactados::-webkit-scrollbar {
+    // display: none;
+    height: 5px;
+    margin-top: 10px;
+}
+
+:host ::ng-deep .mat-chip-list-wrapper {
+    flex-wrap: nowrap;
+    // margin: -4px auto;
+}
+
+:host ::ng-deep .mat-standard-chip {
+    min-width: max-content;
+}

@@ -1,0 +1,117 @@
+<h1 mat-dialog-title>Aula</h1>
+
+<div style="display: flex; justify-content: space-between">
+    <mat-form-field appearance="outline">
+        <mat-label>Disciplina</mat-label>
+        <input
+            matInput
+            [formControl]="disciplina"
+            placeholder="CSX43"
+            required
+        />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Turma</mat-label>
+        <input matInput [formControl]="turma" placeholder="S01" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Curso</mat-label>
+        <mat-select [formControl]="curso">
+            <mat-option *ngFor="let curso of listaCursos" [value]="curso">{{
+                curso.nome
+            }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div style="display: flex; justify-content: space-between">
+    <mat-form-field appearance="outline">
+        <mat-label>Dia</mat-label>
+        <mat-select [formControl]="diaSemana">
+            <mat-option *ngFor="let dia of listaDiasSemana" [value]="dia">{{
+                dia
+            }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Horário Início</mat-label>
+        <mat-select [formControl]="horarioInicio">
+            <mat-option
+                *ngFor="let horario of listaHorarios"
+                [value]="horario"
+                >{{ horario.nome }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Horário Fim</mat-label>
+        <mat-select [formControl]="horarioFim">
+            <mat-option
+                *ngFor="let horario of listaHorarios"
+                [value]="horario"
+                >{{ horario.nome }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div style="display: flex; width: 65.4%; justify-content: space-between">
+    <mat-form-field appearance="outline">
+        <mat-label>Sala Específica</mat-label>
+        <mat-select [formControl]="salaEspecifica">
+            <mat-option *ngFor="let sala of listaSalas" [value]="sala">{{
+                sala.nome
+            }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Sala Atual</mat-label>
+        <mat-select [formControl]="salaAtual">
+            <mat-option *ngFor="let sala of listaSalas" [value]="sala">{{
+                sala.nome
+            }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div style="width: 100%">
+    <mat-form-field style="width: 100%" appearance="outline">
+        <mat-label>Atributos</mat-label>
+        <mat-select [formControl]="atributos" multiple>
+            <mat-select-trigger>
+                <mat-chip-list>
+                    <mat-chip *ngFor="let atributo of atributos.value">
+                        {{ atributo["nome"] }}
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-select-trigger>
+            <mat-option
+                *ngFor="let atributo of listaAtributos"
+                [value]="atributo"
+                >{{ atributo.nome }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div style="display: flex; margin-top: 20px" class="botoes">
+    <!-- <button (click)="teste()">TESE</button> -->
+    <button style="flex: 1" color="warn" mat-raised-button mat-dialog-close>
+        Fechar
+    </button>
+    <button
+        (click)="saveOrUpdateDecider()"
+        style="flex: 1; margin-left: 10px"
+        mat-raised-button
+        color="accent"
+    >
+        Salvar
+    </button>
+</div>
+
+<button (click)="teste()">EU</button>

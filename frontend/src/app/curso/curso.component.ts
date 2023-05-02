@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Usuario } from '../usuario/model/usuario';
+import { UsuarioService } from '../usuario/usuario.service';
 import { SnackbarService } from '../utils/snackbar.service';
 import { CursoModalComponent } from './curso-modal/curso-modal.component';
 import { CursoService } from './curso.service';
@@ -14,8 +16,10 @@ import { Curso } from './model/curso';
     styleUrls: ['./curso.component.scss'],
 })
 export class CursoComponent implements OnInit, AfterViewInit {
-    displayedColumns: string[] = ['nome', 'moreActions'];
+    displayedColumns: string[] = ['nome', 'responsaveis', 'moreActions'];
     dataSource = new MatTableDataSource<Curso>();
+
+    listaUsuarios: Usuario[] = [];
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
@@ -23,11 +27,13 @@ export class CursoComponent implements OnInit, AfterViewInit {
     constructor(
         public dialog: MatDialog,
         private snackService: SnackbarService,
-        private cursoService: CursoService
+        private cursoService: CursoService,
+        private usuarioService: UsuarioService
     ) {}
 
     ngOnInit(): void {
         this.listarCursos();
+        this.listarUsuarios();
     }
 
     ngAfterViewInit() {
@@ -48,6 +54,7 @@ export class CursoComponent implements OnInit, AfterViewInit {
     }
 
     openDialog(cursoToUpdate: any) {
+        this.usuarioService.setUsuarios(this.listaUsuarios);
         const dialogRef = this.dialog.open(CursoModalComponent, {
             width: '500px',
             data: cursoToUpdate,
@@ -72,6 +79,13 @@ export class CursoComponent implements OnInit, AfterViewInit {
         this.cursoService.deletarCurso(id).subscribe((response) => {
             this.listarCursos();
             this.snackService.openSnackbar('Curso deletado', true);
+        });
+    }
+
+    listarUsuarios(): void {
+        this.usuarioService.listarUsuarios().subscribe((response) => {
+            this.listaUsuarios = response;
+            this.listaUsuarios.sort((a, b) => (a.nome < b.nome ? -1 : 1));
         });
     }
 }

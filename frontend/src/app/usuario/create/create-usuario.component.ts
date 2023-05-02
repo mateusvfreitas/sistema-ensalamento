@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,8 +16,6 @@ export class CreateUsuarioComponent implements OnInit {
     permissao = new FormControl('simples');
 
     usuarioDialogContent!: any;
-
-    onAdd = new EventEmitter();
 
     constructor(
         private usuarioService: UsuarioService,

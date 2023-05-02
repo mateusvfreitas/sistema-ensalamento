@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { FILTRO_NOME } from '../utils/filtros';
+import { FILTRO_TEXTO } from '../utils/filtros';
 import { SnackbarService } from '../utils/snackbar.service';
 import { AtributoModalComponent } from './atributo-modal/atributo-modal.component';
 import { AtributoService } from './atributo.service';
@@ -60,7 +60,7 @@ export class AtributoComponent implements OnInit {
     listarAtributos(): void {
         this.atributoService.listarAtributos().subscribe((response) => {
             this.dataSource.data = response as Atributo[];
-            FILTRO_NOME.filtrarPorTexto(this.dataSource);
+            FILTRO_TEXTO.filtrarPorNome(this.dataSource);
         });
     }
 

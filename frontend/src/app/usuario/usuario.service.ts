@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { AppApi } from 'src/app/appApi';
+import { Usuario } from './model/usuario';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UsuarioService {
+    private listaUsuarios!: Usuario[];
+
     constructor(private http: HttpClient) {}
 
     listarUsuarios(): Observable<any> {
@@ -28,5 +31,13 @@ export class UsuarioService {
 
     updateUsuario(id: any, data: any) {
         return this.http.put(`${AppApi.BASE_URL}/usuarios/${id}`, data);
+    }
+
+    setUsuarios(usuarios: Usuario[]) {
+        this.listaUsuarios = usuarios;
+    }
+
+    getUsuarios(): Usuario[] {
+        return this.listaUsuarios;
     }
 }

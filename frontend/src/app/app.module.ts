@@ -1,4 +1,4 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,12 +33,15 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppComponent } from './app.component';
 import { AtributoModalComponent } from './atributo/atributo-modal/atributo-modal.component';
 import { AtributoComponent } from './atributo/atributo.component';
+import { BlocoAulaModalComponent } from './bloco-aula/bloco-aula-modal/bloco-aula-modal.component';
+import { BlocoAulaComponent } from './bloco-aula/bloco-aula.component';
 import { CursoModalComponent } from './curso/curso-modal/curso-modal.component';
 import { CursoComponent } from './curso/curso.component';
 import { GrupoSalaModalComponent } from './grupo-sala/grupo-sala-modal/grupo-sala-modal.component';
 import { GrupoSalaComponent } from './grupo-sala/grupo-sala.component';
 import { HorarioModalComponent } from './horario/horario-modal/horario-modal.component';
 import { HorarioComponent } from './horario/horario.component';
+import { SalaModalComponent } from './sala/sala-modal/sala-modal.component';
 import { SalaComponent } from './sala/sala.component';
 import { CustomPaginatorConfiguration } from './shared/CustomPaginatorConfiguration';
 import { HttpErrorInterceptor } from './shared/http-error.interceptor';
@@ -59,6 +62,9 @@ import { UsuarioComponent } from './usuario/usuario.component';
         SalaComponent,
         GrupoSalaComponent,
         GrupoSalaModalComponent,
+        BlocoAulaComponent,
+        BlocoAulaModalComponent,
+        SalaModalComponent,
     ],
     imports: [
         BrowserModule,

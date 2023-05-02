@@ -4,11 +4,14 @@ import { Observable } from 'rxjs';
 import { AppApi } from '../appApi';
 import { Atributo } from '../atributo/model/atributo';
 import { GrupoSala } from '../grupo-sala/model/grupo-sala';
+import { Sala } from './model/sala';
 
 @Injectable({
     providedIn: 'root',
 })
 export class SalaService {
+    private listaSalas!: Sala[];
+
     constructor(private http: HttpClient) {}
 
     listarSalas(): Observable<any> {
@@ -48,7 +51,7 @@ export class SalaService {
         return this.http.get(`${AppApi.BASE_URL}/salas/${id}`);
     }
 
-    salvarNovoSala(novoSala: any): Observable<any> {
+    salvarNovaSala(novoSala: any): Observable<any> {
         return this.http.post(`${AppApi.BASE_URL}/salas`, novoSala);
     }
 
@@ -58,5 +61,13 @@ export class SalaService {
 
     updateSala(id: any, data: any) {
         return this.http.put(`${AppApi.BASE_URL}/salas/${id}`, data);
+    }
+
+    setSalas(salas: Sala[]) {
+        this.listaSalas = salas;
+    }
+
+    getSalas(): Sala[] {
+        return this.listaSalas;
     }
 }

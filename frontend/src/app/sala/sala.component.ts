@@ -17,8 +17,9 @@ import { GrupoSalaService } from '../grupo-sala/grupo-sala.service';
 import { GrupoSala } from '../grupo-sala/model/grupo-sala';
 import { Sala } from '../sala/model/sala';
 import { SalaService } from '../sala/sala.service';
-import { FILTRO_NOME } from '../utils/filtros';
+import { FILTRO_TEXTO } from '../utils/filtros';
 import { SnackbarService } from '../utils/snackbar.service';
+import { SalaModalComponent } from './sala-modal/sala-modal.component';
 
 @Component({
     selector: 'app-sala',
@@ -53,13 +54,12 @@ export class SalaComponent implements OnInit {
         'capacidade',
         'grupoSala',
         'atributosResumidos',
+        'isExclusiva',
+        'isLiberar',
+        'moreActions',
     ];
-    textoTooltip = 'Qualquer: sei lá&#13;Todos: sei lá';
 
-    seila() {
-        return 'Qualquer: sei lá\nTodos: sei lá';
-    }
-    columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+    columnsToDisplayWithExpand = ['expand', ...this.columnsToDisplay];
     expandedElement!: Sala | null;
     dataSource = new MatTableDataSource<Sala>();
 
@@ -96,15 +96,17 @@ export class SalaComponent implements OnInit {
     }
 
     openDialog(salaToUpdate: any) {
-        console.log('BOTAO CLICADO');
-        console.log(this.dataSource.data);
-        // const dialogRef = this.dialog.open(CreateSalaComponent, {
-        //     width: '400px',
-        //     data: salaToUpdate,
-        // });
-        // dialogRef.afterClosed().subscribe(() => {
-        //     this.listarSalas();
-        // });
+        // console.log('BOTAO CLICADO');
+        // console.log(this.dataSource.data);
+        this.atributoService.setAtributos(this.listaAtributos);
+        this.grupoSalaService.setAgrupamentos(this.listaAgrupamentos);
+        const dialogRef = this.dialog.open(SalaModalComponent, {
+            width: '700px',
+            data: salaToUpdate,
+        });
+        dialogRef.afterClosed().subscribe(() => {
+            this.listarSalas();
+        });
     }
 
     filtrar(): void {
@@ -127,7 +129,7 @@ export class SalaComponent implements OnInit {
             )
             .subscribe((response) => {
                 this.dataSource.data = response as Sala[];
-                FILTRO_NOME.filtrarPorTexto(this.dataSource);
+                FILTRO_TEXTO.filtrarPorNome(this.dataSource);
             });
     }
 
@@ -146,18 +148,16 @@ export class SalaComponent implements OnInit {
     }
 
     consultarSalaPorId(id: any) {
-        console.log('CONSULTAR ID SALA');
-        // this.salaService.consultarSalaPorId(id).subscribe((response) => {
-        //     this.openDialog(response);
-        // });
+        this.salaService.consultarSalaPorId(id).subscribe((response) => {
+            this.openDialog(response);
+        });
     }
 
     deletarSala(id: any): void {
-        // this.salaService.deletarSala(id).subscribe((response) => {
-        //     this.listarSalas();
-        //     this.snackService.openSnackbar('Usuário deletado', true);
-        // });
-        console.log('DELETAR SALA');
+        this.salaService.deletarSala(id).subscribe((response) => {
+            this.listarSalas();
+            this.snackService.openSnackbar('Sala deletada', true);
+        });
     }
 
     applyFilter(event: Event) {

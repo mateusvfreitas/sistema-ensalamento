@@ -1,15 +1,15 @@
 <div class="container-conteudo">
     <mat-form-field appearance="standard">
-        <mat-label>Buscar sala por nome</mat-label>
+        <mat-label>Buscar disciplina por nome</mat-label>
         <input
             matInput
             style="color: white"
             (keyup)="applyFilter($event)"
-            placeholder="Ex.: E-307"
+            placeholder="Ex.: CSW30"
             #input
         />
     </mat-form-field>
-    <div class="filtros" style="display: flex">
+    <!-- <div class="filtros" style="display: flex">
         <div class="filtro-capacidade" style="width: 13%">
             <mat-form-field appearance="outline">
                 <mat-label>Capacidade Mínima</mat-label>
@@ -91,12 +91,12 @@
         >
             Filtrar
         </button>
-    </div>
+    </div> -->
 
     <table
         mat-table
         matSort
-        matSortActive="nome"
+        matSortActive="curso"
         matSortDirection="asc"
         matSortDisableClear="true"
         (matSortChange)="setSort($event)"
@@ -104,44 +104,45 @@
         multiTemplateDataRows
         class="mat-elevation-z8"
     >
-        <ng-container matColumnDef="nome">
-            <th
-                mat-header-cell
-                *matHeaderCellDef
-                mat-sort-header
-                style="width: 10%"
-            >
-                Nome
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.nome }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="capacidade">
-            <th
-                mat-header-cell
-                *matHeaderCellDef
-                mat-sort-header
-                style="width: 10%"
-            >
-                Capacidade
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.capacidade }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="grupoSala">
+        <ng-container matColumnDef="curso">
             <th
                 mat-header-cell
                 *matHeaderCellDef
                 mat-sort-header
                 style="width: 15%"
             >
-                Agrupamento
+                Curso
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.curso.nome }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="disciplina">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 10%"
+            >
+                Disciplina
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.disciplina }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="turma">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 5%"
+            >
+                Turma
             </th>
             <td mat-cell *matCellDef="let element">
-                {{ element.grupoSala.nome }}
+                {{ element.turma }}
             </td>
         </ng-container>
-        <ng-container matColumnDef="atributosResumidos">
+
+        <ng-container matColumnDef="atributos">
             <th
                 mat-header-cell
                 *matHeaderCellDef
@@ -152,45 +153,81 @@
             <td mat-cell *matCellDef="let element">
                 <div class="atributos-compactados">
                     <mat-chip-list>
-                        <mat-chip *ngFor="let item of element.atributos"
+                        <mat-chip *ngFor="let item of element.atributosSala"
                             >{{ item.nome }}
                         </mat-chip>
                     </mat-chip-list>
                 </div>
             </td>
         </ng-container>
-        <ng-container matColumnDef="isExclusiva">
+
+        <ng-container matColumnDef="diaSemana">
             <th
                 mat-header-cell
                 *matHeaderCellDef
                 mat-sort-header
-                style="width: 5%"
+                style="width: 10%"
             >
-                Exclusiva
+                Dia
             </th>
-            <td mat-cell *matCellDef="let element" style="padding-left: 27px">
-                <mat-checkbox
-                    style="margin-right: 50px"
-                    disabled="true"
-                    [(ngModel)]="element.isExclusiva"
-                ></mat-checkbox>
+            <td mat-cell *matCellDef="let element">
+                {{ getDiaSemana(element.diaSemana) }}
             </td>
         </ng-container>
-        <ng-container matColumnDef="isLiberar">
+
+        <ng-container matColumnDef="horarioInicio">
             <th
                 mat-header-cell
                 *matHeaderCellDef
                 mat-sort-header
                 style="width: 5%"
             >
-                Liberar
+                Horário Início
             </th>
-            <td mat-cell *matCellDef="let element" style="padding-left: 20px">
-                <mat-checkbox
-                    style="margin-right: 50px"
-                    disabled="true"
-                    [(ngModel)]="element.isLiberar"
-                ></mat-checkbox>
+            <td mat-cell *matCellDef="let element">
+                {{ element.horarioInicio.nome }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="horarioFim">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 5%"
+            >
+                Horário Fim
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.horarioFim.nome }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="salaEspecifica">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 10%"
+            >
+                Sala Específica
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.salaEspecifica?.nome }}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="salaAtual">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                style="width: 10%"
+            >
+                Sala Atual
+            </th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.salaAtual?.nome }}
             </td>
         </ng-container>
 
@@ -253,7 +290,8 @@
                                 Atributos
                             </h4>
                             <mat-chip-list>
-                                <mat-chip *ngFor="let item of element.atributos"
+                                <mat-chip
+                                    *ngFor="let item of element.atributosSala"
                                     >{{ item.nome }}
                                 </mat-chip>
                             </mat-chip-list>
@@ -272,7 +310,7 @@
                 <mat-menu #menu="matMenu">
                     <button
                         mat-menu-item
-                        (click)="consultarSalaPorId(element.id)"
+                        (click)="consultarBlocoAulaPorId(element.id)"
                     >
                         <mat-icon>edit</mat-icon>
                         <span>Editar</span>

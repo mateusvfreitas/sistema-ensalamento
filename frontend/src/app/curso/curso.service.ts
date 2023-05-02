@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppApi } from '../appApi';
+import { Curso } from './model/curso';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CursoService {
+    private listaCursos!: Curso[];
+
     constructor(private http: HttpClient) {}
 
     listarCursos(): Observable<any> {
@@ -27,5 +30,13 @@ export class CursoService {
 
     updateCurso(id: any, data: any) {
         return this.http.put(`${AppApi.BASE_URL}/cursos/${id}`, data);
+    }
+
+    setCursos(cursos: Curso[]) {
+        this.listaCursos = cursos;
+    }
+
+    getCursos(): Curso[] {
+        return this.listaCursos;
     }
 }

@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Sala</h1>
+
+<div style="display: flex; justify-content: space-between">
+    <mat-form-field appearance="outline">
+        <mat-label>Nome</mat-label>
+        <input matInput [formControl]="nome" placeholder="E-307" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Capacidade</mat-label>
+        <input
+            matInput
+            type="number"
+            [formControl]="capacidade"
+            placeholder="20"
+            required
+        />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Agrupamento</mat-label>
+        <mat-select [formControl]="agrupamento">
+            <mat-option
+                *ngFor="let grupo of listaAgrupamentos"
+                [value]="grupo"
+                >{{ grupo.nome }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div style="width: 100%">
+    <mat-form-field style="width: 100%" appearance="outline">
+        <mat-label>Atributos</mat-label>
+        <mat-select [formControl]="atributos" multiple>
+            <mat-select-trigger>
+                <mat-chip-list>
+                    <mat-chip *ngFor="let atributo of atributos.value">
+                        {{ atributo["nome"] }}
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-select-trigger>
+            <mat-option
+                *ngFor="let atributo of listaAtributos"
+                [value]="atributo"
+                >{{ atributo.nome }}</mat-option
+            >
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<div>
+    <mat-checkbox [(ngModel)]="isExclusiva" style="margin-right: 10px"
+        >Exclusiva</mat-checkbox
+    >
+    <mat-checkbox [(ngModel)]="isLiberar">Liberar</mat-checkbox>
+</div>
+
+<div style="display: flex; margin-top: 20px" class="botoes">
+    <button (click)="teste()">TESE</button>
+    <button style="flex: 1" color="warn" mat-raised-button mat-dialog-close>
+        Fechar
+    </button>
+    <button
+        style="flex: 1; margin-left: 10px"
+        mat-raised-button
+        color="accent"
+        (click)="saveOrUpdateDecider()"
+    >
+        Salvar
+    </button>
+</div>

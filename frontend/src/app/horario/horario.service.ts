@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AppApi } from 'src/app/appApi';
+import { HorarioAula } from './model/horario-aula';
 
 @Injectable({
     providedIn: 'root',
 })
 export class HorarioService {
+    private listaHorarios!: HorarioAula[];
+
     constructor(private http: HttpClient) {}
 
     listarHorarios(): Observable<any> {
@@ -28,5 +31,13 @@ export class HorarioService {
 
     updateHorario(id: any, data: any) {
         return this.http.put(`${AppApi.BASE_URL}/horarios/${id}`, data);
+    }
+
+    setHorarios(horarios: HorarioAula[]) {
+        this.listaHorarios = horarios;
+    }
+
+    getHorarios(): HorarioAula[] {
+        return this.listaHorarios;
     }
 }
